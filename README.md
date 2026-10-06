@@ -5,9 +5,9 @@
 - Student: Jorgen Caekaert
 - Studentennummer: 202514873
 - E-mailadres: <jorgen.caekaert@student.hogent.be>
-- Student: VOORNAAM NAAM
-- Studentennummer: xxxxxxxxx
-- E-mailadres: <voornaam.naam@student.hogent.be>
+- Student: Yul Claeys
+- Studentennummer: 202512216
+- E-mailadres: <yul.claeys@student.hogent.be>
 
 ## Vereisten
 
