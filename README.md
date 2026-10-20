@@ -25,14 +25,8 @@ Ik verwacht dat volgende software reeds geïnstalleerd is:
 
 ## Opstarten
 
-> .env file
-```bash
-NODE_ENV=development 
-PORT=3000
-DATABASE_URL=mysql://devusr:devpwd@localhost:3307/scouts
-CORS_ORIGINS=["http://localhost:5173"]
-CORS_MAX_AGE=10800
-```
+> Schrijf hier hoe we de applicatie starten (.env bestanden aanmaken, commando's om uit te voeren...)
+
 ## Testen
 
 > Schrijf hier hoe we de testen uitvoeren (.env bestanden aanmaken, commando's om uit te voeren...)
@@ -45,8 +39,14 @@ CORS_MAX_AGE=10800
 
 ## Opstarten
 
-> Schrijf hier hoe we de applicatie starten (.env bestanden aanmaken, commando's om uit te voeren...)
-
+> .env file
+```bash
+NODE_ENV=development 
+PORT=3000
+DATABASE_URL=mysql://devusr:devpwd@localhost:3307/scouts
+CORS_ORIGINS=["http://localhost:5173"]
+CORS_MAX_AGE=10800
+```
 ## Testen
 
 > Schrijf hier hoe we de testen uitvoeren (.env bestanden aanmaken, commando's om uit te voeren...)
