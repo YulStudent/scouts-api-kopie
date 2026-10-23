@@ -12,9 +12,9 @@ gemeente
 datumAccountCreatie
 heeftToestemmingFotos
 
-[lid_ouder]
-lidnummer
-oudernummer
+[Lid_Ouder]
+*lidnummer
+*oudernummer
 relatie
 isNoodcontact
 
@@ -29,31 +29,118 @@ huisnummer
 postcode
 gemeente
 
-[Medische_fiche]
+[MedischeFiche]
 *medischeFicheID
+#lidnummer
 naamHuisArts
 telefoonnummerHuisarts
 adresHuisarts
-lidnummer
-magSporten
-magHoogetparcour
-magNachtspel
-magFietsen
-magTochtwandelen
-magZwemmen
-opmerkingActiviteiten
-heeftBesmettelijkeZiektes
-heeftActueleZiektesOfBeperkingen
-neemtGeneesmiddelen
+inentingTetanusDatum 
+bloedgroep
 aandachtpuntenSlapen
 aandachtpuntenAlgemeen
-inentingTetanus
-bloedgroep
-heeftAllergie
-dieetoptie
+opmerkingActiviteiten
+datumLaatsteWijziging
+datumToestemmingOuders
 
+[Activiteitstype]
+*activiteitNaam
 
+[Fiche_Activiteit]
+*medischeFicheID
+*activiteitNaam
+magDeelnemen
+opmerking
+
+[Fiche_Allergie]
+*medischeFicheID
+*allergieNaam
+opmerking
+
+[Medicatie]
+*medicatieID
+#medischeFicheID
+naamMedicatie
+dosering
+tijdstip
+opmerking
+
+[Aandoening]
+*aandoeningID
+#medischeFicheID
+type
+omschrijving
+
+[Dieet]
+*dieetNaam
+
+[Fiche_Dieet]
+*medischeFicheID
+*dieetNaam
+opmerking
+
+[Scoutslid_Badge]
+*lidnummer
+*naamBadge
+datumBehalenBadge
 
 [Badge]
-naamBadge
+*naamBadge
 vereistenHalenBadge
+
+[Scoutslid_Patrouille]
+*lidnummer
+*patrouilleNaam
+*werkjaar
+isAssistentPatrouilleLeider
+isPatrouilleleider
+
+[Patrouille]
+*patrouilleNaam
+#takNaam
+kreet
+
+[Tak]
+*takNaam
+minimumLeeftijd
+maximumLeeftijd
+maximumAantalLedenGeboortejaar
+
+[Lidmaatschap]
+*lidnummer 
+*werkjaar
+#takNaam
+betaald
+
+[Leiding]
+*lidnummer
+emailadres
+startdatumLeiding
+
+[Leiding_Werkjaar]
+*lidnummer
+*werkjaar
+#takNaam
+isTakleiding
+isEenheidsleiding
+
+Lid_Ouder *--1 Scoutslid
+Lid_Ouder *--1 Ouder
+MedischeFiche ?--1 Scoutslid
+Fiche_Activiteit *--1 MedischeFiche
+Fiche_Activiteit *--1 Activiteitstype
+Fiche_Allergie *--1 MedischeFiche
+Medicatie *--1 MedischeFiche
+Aandoening *--1 MedischeFiche
+Fiche_Dieet *--1 MedischeFiche
+Fiche_Dieet *--1 Dieet
+Scoutslid_Badge *--1 Scoutslid
+Scoutslid_Badge *--1 Badge
+Scoutslid_Patrouille *--1 Scoutslid
+Scoutslid_Patrouille *--1 Patrouille
+Patrouille *--1 Tak
+Lidmaatschap *--1 Scoutslid
+Lidmaatschap *--1 Tak
+Leiding ?--1 Scoutslid
+Leiding_Werkjaar *--1 Leiding
+Leiding_Werkjaar *--1 Tak
