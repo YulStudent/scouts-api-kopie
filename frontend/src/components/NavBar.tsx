@@ -24,7 +24,7 @@ interface NavLinkItem {
 }
 
 const links: NavLinkItem[] = [
-  { to: '/Home', label: 'Home' },
+  { to: '/home', label: 'Home' },
   {
     label: 'Over ons',
     children: [
@@ -124,7 +124,7 @@ export default function NavBar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
       <div className="container mx-auto flex h-14 max-w-5xl items-center px-4">
         <Link
-          to="/"
+          to="/home"
           className="flex items-center gap-2 font-semibold text-primary mr-6"
         >
           {/* vervang later door <img src="/logo.svg" alt="Logo" className="h-10" /> */}

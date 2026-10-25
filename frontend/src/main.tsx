@@ -18,7 +18,7 @@ const router = createBrowserRouter([
   {
     element: <Layout />, 
     children: [
-      { path: '/Home', element: <Home /> },
+      { path: '/home', element: <Home /> },
       { path: '/', element: <Navigate to='/home' replace /> },
       { path: '/over-ons', children: [
           { index: true, element: <Navigate to='/over-ons/totem-galerij' replace /> },
