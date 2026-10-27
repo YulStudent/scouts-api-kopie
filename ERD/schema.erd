@@ -12,6 +12,12 @@ gemeente
 datumAccountCreatie
 heeftToestemmingFotos
 
+[Gebruiker]
+*gebruikerId
+emailadres
+wachtwoordHash
+datumAccountCreatie
+
 [Lid_Ouder]
 *lidnummer
 *oudernummer
@@ -28,13 +34,17 @@ straatnaam
 huisnummer
 postcode
 gemeente
++gebruikerId
 
 [MedischeFiche]
 *medischeFicheID
 #lidnummer
 naamHuisArts
 telefoonnummerHuisarts
-adresHuisarts
+straatNaamHuisarts
+huisnummerHuisarts
+postcodeHuisarts
+gemeenteHuisarts
 inentingTetanusDatum 
 bloedgroep
 aandachtpuntenSlapen
@@ -44,17 +54,19 @@ datumLaatsteWijziging
 datumToestemmingOuders
 
 [Activiteitstype]
-*activiteitNaam
+*activiteitId
+activiteitNaam
 
 [Fiche_Activiteit]
 *medischeFicheID
-*activiteitNaam
+*activiteitId
 magDeelnemen
 opmerking
 
 [Fiche_Allergie]
 *medischeFicheID
-*allergieNaam
+*allergieId
+allergieNaam
 opmerking
 
 [Medicatie]
@@ -72,36 +84,40 @@ type
 omschrijving
 
 [Dieet]
-*dieetNaam
+*dieetId
+dieetNaam
 
 [Fiche_Dieet]
 *medischeFicheID
-*dieetNaam
+*dieetId
 opmerking
 
 [Scoutslid_Badge]
 *lidnummer
-*naamBadge
+*badgeId
 datumBehalenBadge
 
 [Badge]
-*naamBadge
+*badgeId
+badgeNaam
 vereistenHalenBadge
 
 [Scoutslid_Patrouille]
 *lidnummer
-*patrouilleNaam
+*patrouilleId
 *werkjaar
 isAssistentPatrouilleLeider
 isPatrouilleleider
 
 [Patrouille]
-*patrouilleNaam
-#takNaam
+*patrouilleId
+#takId
+patrouilleNaam
 kreet
 
 [Tak]
-*takNaam
+*takId
+takNaam
 minimumLeeftijd
 maximumLeeftijd
 maximumAantalLedenGeboortejaar
@@ -109,18 +125,19 @@ maximumAantalLedenGeboortejaar
 [Lidmaatschap]
 *lidnummer 
 *werkjaar
-#takNaam
+#takId
 betaald
 
 [Leiding]
 *lidnummer
 emailadres
 startdatumLeiding
++gebruikerId
 
 [Leiding_Werkjaar]
 *lidnummer
 *werkjaar
-#takNaam
+#takId
 isTakleiding
 isEenheidsleiding
 
@@ -144,3 +161,5 @@ Lidmaatschap *--1 Tak
 Leiding ?--1 Scoutslid
 Leiding_Werkjaar *--1 Leiding
 Leiding_Werkjaar *--1 Tak
+Ouder ?--? Gebruiker
+Leiding ?--1 Gebruiker
