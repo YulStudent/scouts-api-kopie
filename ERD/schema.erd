@@ -1,61 +1,42 @@
-[Scoutslid]
-*lidnummer
-voornaam
-achternaam
-geboortedatum
-telefoonnummer
-rijksregisternummer
-straatnaam
-huisnummer
-postcode
-gemeente
-datumAccountCreatie
-heeftToestemmingFotos
+[Gebruiker]
+*gebruikerID {label: "int, PK"}
+voornaam {label: "varchar, verplicht"}
+achternaam {label: "varchar, verplicht"}
+straatnaam {label: "varchar, verplicht"}
+huisnummer {label: "varchar, verplicht"}
+postcode {label: "varchar, verplicht"}
+gemeente {label: "varchar, verplicht"}
+gebruikerType {label: "discriminator: Lid, Ouder of Leiding"}
+emailadres {label: "varchar, nullable"}
+telefoonnummer {label: "varchar, nullable"}
+rijksregisternummer {label: "varchar, nullable"}
+heeftToestemmingFotos {label: "boolean, nullable"}
+startdatumLeiding {label: "date, enkel Leiding"}
+datumAccountcreatie {label: "datetime, verplicht"}
 
 [Lid_Ouder]
-*lidnummer
-*oudernummer
+*lidGebruikerID
+*ouderGebruikerID
 relatie
 isNoodcontact
 
-[Ouder]
-*oudernummer
-voornaam
-achternaam
-telefoonnummer
-emailadres
-straatnaam
-huisnummer
-postcode
-gemeente
-
 [MedischeFiche]
 *medischeFicheID
-#lidnummer
+#gebruikerID
 naamHuisArts
 telefoonnummerHuisarts
 adresHuisarts
-inentingTetanusDatum 
+inentingTetanusDatum
 bloedgroep
+allergieen
+ziektes
+beperkingen
+dieet
 aandachtpuntenSlapen
 aandachtpuntenAlgemeen
 opmerkingActiviteiten
 datumLaatsteWijziging
 datumToestemmingOuders
-
-[Activiteitstype]
-*activiteitNaam
-
-[Fiche_Activiteit]
-*medischeFicheID
-*activiteitNaam
-magDeelnemen
-opmerking
-
-[Fiche_Allergie]
-*medischeFicheID
-*allergieNaam
-opmerking
 
 [Medicatie]
 *medicatieID
@@ -65,82 +46,47 @@ dosering
 tijdstip
 opmerking
 
-[Aandoening]
-*aandoeningID
-#medischeFicheID
-type
-omschrijving
-
-[Dieet]
-*dieetNaam
-
-[Fiche_Dieet]
-*medischeFicheID
-*dieetNaam
-opmerking
-
-[Scoutslid_Badge]
-*lidnummer
-*naamBadge
-datumBehalenBadge
-
-[Badge]
-*naamBadge
-vereistenHalenBadge
-
-[Scoutslid_Patrouille]
-*lidnummer
-*patrouilleNaam
+[Lid_Patrouille]
+*gebruikerID
 *werkjaar
+#patrouilleID
 isAssistentPatrouilleLeider
 isPatrouilleleider
 
 [Patrouille]
-*patrouilleNaam
-#takNaam
+*patrouilleID
+patrouilleNaam
+#takID
 kreet
 
 [Tak]
-*takNaam
+*takID
+takNaam
 minimumLeeftijd
 maximumLeeftijd
 maximumAantalLedenGeboortejaar
 
 [Lidmaatschap]
-*lidnummer 
+*gebruikerID
 *werkjaar
-#takNaam
+#takID
 betaald
 
-[Leiding]
-*lidnummer
-emailadres
-startdatumLeiding
-
 [Leiding_Werkjaar]
-*lidnummer
+*gebruikerID
 *werkjaar
-#takNaam
+#takID
 isTakleiding
 isEenheidsleiding
 
-Lid_Ouder *--1 Scoutslid
-Lid_Ouder *--1 Ouder
-MedischeFiche ?--1 Scoutslid
-Fiche_Activiteit *--1 MedischeFiche
-Fiche_Activiteit *--1 Activiteitstype
-Fiche_Allergie *--1 MedischeFiche
-Medicatie *--1 MedischeFiche
-Aandoening *--1 MedischeFiche
-Fiche_Dieet *--1 MedischeFiche
-Fiche_Dieet *--1 Dieet
-Scoutslid_Badge *--1 Scoutslid
-Scoutslid_Badge *--1 Badge
-Scoutslid_Patrouille *--1 Scoutslid
-Scoutslid_Patrouille *--1 Patrouille
-Patrouille *--1 Tak
-Lidmaatschap *--1 Scoutslid
-Lidmaatschap *--1 Tak
-Leiding ?--1 Scoutslid
-Leiding_Werkjaar *--1 Leiding
-Leiding_Werkjaar *--1 Tak
+Lid_Ouder *--1 Gebruiker {label: "lid"}
+Lid_Ouder *--1 Gebruiker {label: "ouder"}
+MedischeFiche ?--1 Gebruiker {label: "hoort bij"}
+Medicatie *--1 MedischeFiche {label: "gebruikt volgens fiche"}
+Lid_Patrouille *--1 Gebruiker {label: "lid"}
+Lid_Patrouille *--1 Patrouille {label: "zit in"}
+Patrouille *--1 Tak {label: "hoort bij"}
+Lidmaatschap *--1 Gebruiker {label: "van"}
+Lidmaatschap *--1 Tak {label: "in tak"}
+Leiding_Werkjaar *--1 Gebruiker {label: "leiding"}
+Leiding_Werkjaar *--1 Tak {label: "begeleidt"}
