@@ -128,7 +128,8 @@ export default function NavBar() {
           className="flex items-center gap-2 font-semibold text-primary mr-6"
         >
           {/* vervang later door <img src="/logo.svg" alt="Logo" className="h-10" /> */}
-          Logo
+          <img src='../assets/scoutslogodetortels_wit.png' alt="Logo" className="h-10" />
+          
         </Link>
 
         <div className="hidden md:flex flex-1 items-center justify-end gap-4">
