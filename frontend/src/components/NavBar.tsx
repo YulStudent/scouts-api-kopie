@@ -11,6 +11,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger, 
 } from '../components/ui/navigation-menu';
+import scoutsLogo from '../assets/scoutslogodetortels_wit.svg';
 
 interface NavChild {
   to: string;
@@ -128,7 +129,7 @@ export default function NavBar() {
           className="flex items-center gap-2 font-semibold text-primary mr-6"
         >
           {/* vervang later door <img src="/logo.svg" alt="Logo" className="h-10" /> */}
-          <img src='../assets/scoutslogodetortels_wit.png' alt="Logo" className="h-10" />
+          <img src={scoutsLogo} alt="Logo" className="h-10"/>
           
         </Link>
 
