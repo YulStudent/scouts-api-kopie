@@ -5,7 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
-
+import Autoplay from "embla-carousel-autoplay"
 
 const modules = import.meta.glob<string>(
   '../../assets/tortelFotos/*.{jpg,jpeg,png,webp}',
@@ -20,12 +20,19 @@ export default function HomeCarousel(){
   }
 
   return (
-    <Carousel className="w-full" opts={{loop: true}}>
+    <Carousel 
+      className="w-full max-w-lg mx-auto" 
+      opts={{ loop: true }}
+      plugins={[ Autoplay({ delay: 3000, stopOnMouseEnter: true, stopOnInteraction: false, }),
+    ]}>
       <CarouselContent>
         {images.map((src, index) =>  (
           <CarouselItem key={src}>
-            <img
-              src={src} alt={`Foto ${index + 1}`} className="flex aspect-square items-center justify-center p-6" />
+            <img 
+              src={src} 
+              alt={`Foto ${index + 1}`} 
+              className="w-full max-w-lg aspect-video object-cover rounded-2xl"
+            />
           </CarouselItem>
         ))}
       </CarouselContent>
