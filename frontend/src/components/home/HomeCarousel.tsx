@@ -2,8 +2,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+
 } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay"
 
@@ -21,7 +20,7 @@ export default function HomeCarousel(){
 
   return (
     <Carousel 
-      className="w-full max-w-lg mx-auto" 
+      className="w-full mx-auto" 
       opts={{ loop: true }}
       plugins={[ Autoplay({ delay: 3000, stopOnMouseEnter: true, stopOnInteraction: false, }),
     ]}>
@@ -31,13 +30,12 @@ export default function HomeCarousel(){
             <img 
               src={src} 
               alt={`Foto ${index + 1}`} 
-              className="w-full max-w-lg aspect-video object-cover rounded-2xl"
+              className="w-full h-64 sm:h-80 md:h-96 lg:h-[32rem] object-cover rounded-2xl"
             />
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      
     </Carousel>
   );
 }
