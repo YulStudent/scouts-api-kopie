@@ -57,7 +57,7 @@ function NavMenu({vertical = false, }: {
   return (
     <NavigationMenu>
       <NavigationMenuList
-        className={vertical ? 'flex-col items-start' : undefined}
+        className={vertical ? 'flex-col items-start' : 'gap-1'}
       >
         {links.map(({ to, label, children }) => {
           if (!children) {

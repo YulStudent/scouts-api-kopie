@@ -30,7 +30,7 @@ export default function HomeCarousel(){
             <img 
               src={src} 
               alt={`Foto ${index + 1}`} 
-              className="w-full h-64 sm:h-80 md:h-96 lg:h-[32rem] object-cover rounded-2xl"
+              className="w-full h-64 sm:h-80 md:h-96 lg:h-128 object-cover rounded-2xl"
             />
           </CarouselItem>
         ))}
