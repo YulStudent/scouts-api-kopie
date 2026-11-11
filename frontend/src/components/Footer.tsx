@@ -6,12 +6,12 @@ const INSTAGRAM_URL = 'https://www.instagram.com/204e_detortels/';
 
 const FooterComponent = () => {
   return (
-    <footer className="w-full bg-gray-200 px-4 py-8 ">
-      <div className="mx-auto max-w-7xl">
+    <footer className="w-full bg-gray-200 p-4 ">
+      <div className="mx-auto max-w">
         {/*Top*/}
         <div className="flex flex-col gap-8 md:flex-row md:justify-between">
           <div className="flex flex-col">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <a href={FACEBOOK_URL}>
                 <FacebookIcon/>
               </a>
@@ -19,7 +19,7 @@ const FooterComponent = () => {
                 <InstagramIcon/>
               </a>
             </div>
-            <div className="text-lg leading-10">
+            <div className="text-m pt-2">
               <p>204° FOS De Tortels</p>
               <p>Botestraat 98B001,</p>
               <p>9032 Wondelgem</p>
@@ -29,12 +29,12 @@ const FooterComponent = () => {
             <img
               src={scoutsLogo}
               alt="tortels Logo"
-              className="h-40 w-aut"
+              className="h-30 w-aut"
             />
           </div>
         </div>
         {/*Bottom*/}
-        <div className="mt-10 flex flex-col gap-4 border-b border-white pb-3 md:flex-row md:items-center md:justify-between">
+        <div className="mt-10 flex flex-col gap-4 border-b-3 border-white pb-1 md:flex-row md:items-center md:justify-between">
           <p>
             Elke zaterdag van 14.00 u. tot 18.00 u.
           </p>

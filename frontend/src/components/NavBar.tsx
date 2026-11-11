@@ -12,6 +12,10 @@ import {
   NavigationMenuTrigger, 
 } from '../components/ui/navigation-menu';
 import scoutsLogo from '../assets/scoutslogodetortels_wit.png';
+import { FacebookIconWhite, InstagramIconWhite } from "@/components/SocialMediaIcons";
+
+const FACEBOOK_URL = 'https://www.facebook.com/tortels';
+const INSTAGRAM_URL = 'https://www.instagram.com/204e_detortels/';
 
 interface NavChild {
   to: string;
@@ -131,6 +135,15 @@ export default function NavBar() {
           <img src={scoutsLogo} alt="Logo" className="h-18"/>
           
         </Link>
+
+        <div className="flex items-center gap-2">
+          <a href={FACEBOOK_URL}>
+            <FacebookIconWhite/>
+          </a>
+          <a href={INSTAGRAM_URL}>
+            <InstagramIconWhite/>
+          </a>
+        </div>
 
         <div className="hidden md:flex flex-1 items-center justify-end gap-10">
           <NavMenu />
