@@ -11,6 +11,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger, 
 } from '../components/ui/navigation-menu';
+import scoutsLogo from '../assets/scoutslogodetortels_wit.png';
+import { FacebookIconWhite, InstagramIconWhite } from "@/components/SocialMediaIcons";
+
+const FACEBOOK_URL = 'https://www.facebook.com/tortels';
+const INSTAGRAM_URL = 'https://www.instagram.com/204e_detortels/';
 
 interface NavChild {
   to: string;
@@ -56,7 +61,7 @@ function NavMenu({vertical = false, }: {
   return (
     <NavigationMenu>
       <NavigationMenuList
-        className={vertical ? 'flex-col items-start' : undefined}
+        className={vertical ? 'flex-col items-start' : 'gap-1'}
       >
         {links.map(({ to, label, children }) => {
           if (!children) {
@@ -121,17 +126,26 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-      <div className="container mx-auto flex h-14 max-w-5xl items-center px-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-red-900  backdrop-blur">
+      <div className="flex h-20 w-full items-center px-6">
         <Link
           to="/home"
           className="flex items-center gap-2 font-semibold text-primary mr-6"
         >
-          {/* vervang later door <img src="/logo.svg" alt="Logo" className="h-10" /> */}
-          Logo
+          <img src={scoutsLogo} alt="Logo" className="h-18"/>
+          
         </Link>
 
-        <div className="hidden md:flex flex-1 items-center justify-end gap-4">
+        <div className="flex items-center gap-2">
+          <a href={FACEBOOK_URL}>
+            <FacebookIconWhite/>
+          </a>
+          <a href={INSTAGRAM_URL}>
+            <InstagramIconWhite/>
+          </a>
+        </div>
+
+        <div className="hidden md:flex flex-1 items-center justify-end gap-10">
           <NavMenu />
           <Link
             to="/inschrijven"
@@ -152,7 +166,7 @@ export default function NavBar() {
 
       {isOpen && (
         <div className="border-t md:hidden bg-background">
-          <div className="container mx-auto px-4 py-4 max-w-5xl">
+          <div className="px-6 py-4">
             <NavMenu vertical />
           </div>
         </div>
