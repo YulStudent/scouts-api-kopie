@@ -25,7 +25,11 @@ Ik verwacht dat volgende software reeds geïnstalleerd is:
 
 ## Opstarten
 
-> Schrijf hier hoe we de applicatie starten (.env bestanden aanmaken, commando's om uit te voeren...)
+```bash
+cd frontend
+pnpm install
+pnpm dev
+```
 
 ## Testen
 
@@ -47,6 +51,17 @@ DATABASE_URL=mysql://devusr:devpwd@localhost:3307/scouts
 CORS_ORIGINS=["http://localhost:5173"]
 CORS_MAX_AGE=10800
 ```
+> commando's
+
+```bash
+cd backend
+pnpm install
+docker compose p -d
+pnpm db: migrate
+pnpm db: seed
+pnpm start: dev
+```
+
 ## Testen
 
 > Schrijf hier hoe we de testen uitvoeren (.env bestanden aanmaken, commando's om uit te voeren...)

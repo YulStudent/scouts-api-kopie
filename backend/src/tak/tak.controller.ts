@@ -22,32 +22,32 @@ export class TakController {
   constructor(private readonly takService: TakService) {}
 
   @Get()
-  getAllTakken(): TakListResponseDto {
+  async getAllTakken(): Promise<TakListResponseDto> {
     return this.takService.getAll();
   }
 
   @Get(':id')
-  getTakById(@Param('id') id: String){
+  async getTakById(@Param('id') id: string): Promise<TakResponseDto> {
     return this.takService.getById(Number(id));
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createTak(@Body() dto: CreateTakRequestDto): TakResponseDto{
+  async createTak(@Body() dto: CreateTakRequestDto): Promise<TakResponseDto>{
     return this.takService.create(dto);
   }
 
    @Put(':id')
-  updateTak(
+  async updateTak(
     @Param('id') id: string,
     @Body() dto: UpdateTakRequestDto,
-  ): TakResponseDto {
+  ): Promise<TakResponseDto> {
     return this.takService.updateById(Number(id), dto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteTak(@Param('id') id: string): void {
+  async deleteTak(@Param('id') id: string): Promise<void> {
     this.takService.deleteById(Number(id));
   }
 }

@@ -1,53 +1,66 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "149a187d-953b-4848-9be1-0809cf3100d2",
+  "id": "518ff671-e7ad-48c8-aec4-e8097600c069",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "places": {
-      "name": "places",
+    "takken": {
+      "name": "takken",
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
+          "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
         },
-        "name": {
-          "name": "name",
+        "tak_naam": {
+          "name": "tak_naam",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "rating": {
-          "name": "rating",
+        "minimum_leeftijd": {
+          "name": "minimum_leeftijd",
           "type": "tinyint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "maximum_leeftijd": {
+          "name": "maximum_leeftijd",
+          "type": "tinyint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "maximum_aantal_leden_geboortejaar": {
+          "name": "maximum_aantal_leden_geboortejaar",
+          "type": "int unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         }
       },
-      "indexes": {
-        "idx_place_name_unique": {
-          "name": "idx_place_name_unique",
-          "columns": [
-            "name"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "places_id": {
-          "name": "places_id",
+        "takken_id": {
+          "name": "takken_id",
           "columns": [
             "id"
           ]
         }
       },
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "idx_tak_naam_unique": {
+          "name": "idx_tak_naam_unique",
+          "columns": [
+            "tak_naam"
+          ]
+        }
+      },
       "checkConstraint": {}
     }
   },

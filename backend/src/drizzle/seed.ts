@@ -15,17 +15,19 @@ const db = drizzle(connection, {
 
 async function resetDatabase() {
   console.log('Resetting database...');
-
-
-  //TODO tabellen aanmaken 
-  //await db.delete(schema.XXX);
+  await db.delete(schema.takken);
   console.log('Database reset completed\n');
 }
 
-async function seedData() {
-  console.log('Seeding NAAMTABLE...');
+async function seedTakken() {
+  console.log('Seeding takken...');
 
-  // await db.insert(schema.NAAMTABLE).values([ ... ]);
+  await db.insert(schema.takken).values([ 
+    {id: 1, takNaam: 'Bevers', minimumLeeftijd: 6, maximumLeeftijd: 8, maximumAantalLedenGeboortejaar: 25},
+    {id: 2, takNaam: 'Welpen', minimumLeeftijd: 8, maximumLeeftijd: 10, maximumAantalLedenGeboortejaar: 25},
+    {id: 3, takNaam: 'Wolven', minimumLeeftijd: 10, maximumLeeftijd: 12, maximumAantalLedenGeboortejaar: 20}
+
+  ]);
 
   console.log('Places seeded successfully\n');
 }
@@ -38,7 +40,7 @@ async function main() {
   console.log('✅ Database connection OK\n');
 
   await resetDatabase();
-  await seedData();
+  await seedTakken();
 
   console.log('Database seeding completed succesfully');
 }

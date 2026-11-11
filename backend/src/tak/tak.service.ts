@@ -1,5 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TAKKEN, Tak } from '../data/mock_data';
+import { eq } from 'drizzle-orm';
+import { takken } from '../drizzle/schema';
+import {
+  type DatabaseProvider,
+  InjectDrizzle,
+} from '../drizzle/drizzle.provider';
 import {
   CreateTakRequestDto,
   UpdateTakRequestDto,
@@ -9,38 +14,39 @@ import {
 
 @Injectable()
 export class TakService {
-  getAll(): TakListResponseDto {
-    return { items: TAKKEN };
+  constructor(
+    @InjectDrizzle()
+    private readonly db: DatabaseProvider,
+  ) {}
+
+  async getAll(): Promise<TakListResponseDto> {
+    const items = await this.db.query.takken.findMany();
+    return {items}
   }
 
-  getById(id: number): TakResponseDto {
-    const tak = TAKKEN.find((item: Tak) => item.id === id);
+  async getById(id: number): Promise<TakResponseDto> {
+    const tak = await this.db.query.takken.findFirst({ where: eq(takken.id, id),});
     if (!tak) {
       throw new NotFoundException('Geen tak met deze id bestaat'); 
     }
     return tak;
   }
 
-  create(dto: CreateTakRequestDto): TakResponseDto {
-    const nieuweTak = {
-      id: Math.max(0, ...TAKKEN.map((item: Tak) => item.id)) + 1,
-      ...dto,
-    };
-    TAKKEN.push(nieuweTak);
-    return nieuweTak;
+  async create(dto: CreateTakRequestDto): Promise<TakResponseDto> {
+    const [nieuweTak] = await this.db.insert(takken).values(dto).$returningId();
+    return this.getById(nieuweTak.id);
   }
 
-  updateById(id: number, dto: UpdateTakRequestDto): TakResponseDto {
-    const tak = this.getById(id);
-    Object.assign(tak, dto);
-    return tak;
+  async updateById(id: number, changes: UpdateTakRequestDto): Promise<TakResponseDto> {
+    await this.db.update(takken).set(changes).where(eq(takken.id, id));
+    return this.getById(id);
   }
 
-  deleteById(id: number): void {
-    const index = TAKKEN.findIndex((item: Tak) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException('Geen tak met deze id bestaat');
+  async deleteById(id: number): Promise<void> {
+    const [result] = await this.db.delete(takken).where(eq(takken.id, id));
+
+    if (result.affectedRows === 0) {
+      throw new NotFoundException('No tak with this id exists');
     }
-    TAKKEN.splice(index, 1);
   }
 }
