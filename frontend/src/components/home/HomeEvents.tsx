@@ -40,7 +40,7 @@ const events: EventItem[] = [
 
 function EventCard({ image, imageAlt, href, title, date, description }: EventItem) {
   return (
-    <div className='group block w-full max-w-sm'>
+    <a href={href} className='group block w-full max-w-sm'>
       <Card className='h-full transition-shadow hover:shadow-lg'>
         <img src={image} alt={imageAlt} className='w-full' />
         <CardHeader>
@@ -56,7 +56,7 @@ function EventCard({ image, imageAlt, href, title, date, description }: EventIte
           </a>
         </CardFooter>
       </Card> 
-    </div>
+    </a>
   );
 }
 
