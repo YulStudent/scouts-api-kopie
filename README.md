@@ -27,6 +27,12 @@ Ik verwacht dat volgende software reeds geïnstalleerd is:
 
 > Schrijf hier hoe we de applicatie starten (.env bestanden aanmaken, commando's om uit te voeren...)
 
+> .env file
+```bash
+VITE_API_URL=http://localhost:3000/api
+```
+
+
 ## Testen
 
 > Schrijf hier hoe we de testen uitvoeren (.env bestanden aanmaken, commando's om uit te voeren...)
