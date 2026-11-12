@@ -5,6 +5,8 @@ import { DrizzleModule } from './drizzle/drizzle.module';
 import { TakController } from './tak/tak.controller';
 import { TakService } from './tak/tak.service';
 import { TakModule } from './tak/tak.module';
+import { PatrouilleController } from './patrouille/patrouille.controller';
+import { PatrouilleService } from './patrouille/patrouille.service';
 import configuration from './config/configuration';
 
 @Module({
@@ -13,7 +15,7 @@ import configuration from './config/configuration';
     DrizzleModule,
     TakModule,
   ],
-  controllers: [HealthController],
-  providers: [],
+  controllers: [HealthController, PatrouilleController],
+  providers: [PatrouilleService],
 })
 export class AppModule {}
