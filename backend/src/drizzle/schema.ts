@@ -22,15 +22,26 @@ export const patrouilles = mysqlTable('patrouilles', {
 })
 
 export const lidmaatschappen = mysqlTable('lidmaatschappen', {
-
+  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'cascade'}),
+  werkjaar: int('werkjaar', {unsigned: true}).notNull(),
+  takId: fk('tak_id').notNull().references(() => takken.id, { onDelete: 'no action' }),
+  betaald: boolean('betaald').notNull().default(false)
 });
 
 export const LeidingWerkjaar = mysqlTable('leiding_werkjaar', {
-
+  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'cascade'}),
+  werkjaar: int('werkjaar', {unsigned: true}).notNull(),
+  takId: fk('tak_id').notNull().references(() => takken.id, { onDelete: 'no action' }),
+  isTakleiding: boolean("is_takleiding").notNull().default(false),
+  isEenheidsleiding: boolean("is_eenheidsleiding").notNull().default(false)
 });
 
 export const lidPatrouille = mysqlTable('lid_patrouille', {
-
+  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'cascade'}),
+  werkjaar: int('werkjaar', {unsigned: true}).notNull(),
+  patrouilleId: fk('patrouilleId').notNull().references(() => patrouilles.id, {onDelete: 'cascade'}),
+  isAssistentPatrouilleLeider: boolean("is_assistent_Patrouilleleider").notNull().default(false),
+  isPatrouilleLeider: boolean("is_Patrouilleleider").notNull().default(false)
 });
 
 export const medischeFiches = mysqlTable('medische_fiches', {
@@ -47,6 +58,7 @@ export const medischeFiches = mysqlTable('medische_fiches', {
   aandachtpuntenSlapen: varchar('aandachtpunten_slapen', {length:255}),
   aandachtpuntenAlgemeen: varchar('aandachtpunten_algemeen', {length:255}),
   opmerkingenActiviteiten: varchar('opmerkingenActiviteiten', {length:255}),
+  datumLaatsteWijziging: datetime('datum_accountcreatie').notNull().default(sql`CURRENT_TIMESTAMP`),
 });
 
 export const gebruikers = mysqlTable('gebruikers', {
@@ -68,9 +80,16 @@ export const gebruikers = mysqlTable('gebruikers', {
 });
 
 export const medicaties = mysqlTable('medicaties', {
-
+  id: id(),
+  medischeFicheId: fk("medische_fiche_id").notNull().references(() => medischeFiches.id, {onDelete: 'cascade'}),
+  naamMedicatie: varchar("naam_medicatie", {length: 255}).notNull(),
+  dossering: varchar("dossering", {length: 255}).notNull(),
+  opmerking: varchar('opmerkingen', {length: 255})
 });
 
 export const lidOuder = mysqlTable('lid_ouder', {
-
+  lidGebruikerId: fk('lid_gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'no action'}),
+  ouderGebruikerId: fk('ouder_gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'no action'}),
+  relatie: varchar("relatie", {length: 255}).notNull(),
+  isNoodcontact: boolean('is_noodcontact').notNull().default(false)
 });
