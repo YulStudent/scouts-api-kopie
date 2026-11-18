@@ -7,6 +7,9 @@ import { TakService } from './tak/tak.service';
 import { TakModule } from './tak/tak.module';
 import { PatrouilleController } from './patrouille/patrouille.controller';
 import { PatrouilleService } from './patrouille/patrouille.service';
+import { PatrouilleModule } from './patrouille/patrouille.module';
+import { GebruikerModule } from './gebruiker/gebruiker.module';
+import { MedischeFicheModule } from './medische-fiche/medische-fiche.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -14,6 +17,9 @@ import configuration from './config/configuration';
     ConfigModule.forRoot({ load: [configuration], isGlobal: true }),
     DrizzleModule,
     TakModule,
+    PatrouilleModule,
+    GebruikerModule,
+    MedischeFicheModule,
   ],
   controllers: [HealthController, PatrouilleController],
   providers: [PatrouilleService],
