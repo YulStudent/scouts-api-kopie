@@ -8,21 +8,29 @@ export class CreateGebruikerRequestDto {
   postcode: string;
   gemeente: string;
   gebruikersType: GebruikersType;
-  email?: string;
-  telefoonnummer?: string;
-  rijksregisternummer?: string;
-  heeftToestemmingFotos?: boolean;
-  startdatumLeiding?: string;
-  geboortedatum?: string;
+  email?: string|null;
+  telefoonnummer?: string|null;
+  rijksregisternummer?: string|null;
+  heeftToestemmingFotos?: boolean|null;
+  startdatumLeiding?: Date|null;
+  geboortedatum?: Date|null;
 }
 
 export class UpdateGebruikerRequestDto extends CreateGebruikerRequestDto {}
 
 export class GebruikerResponseDto extends CreateGebruikerRequestDto{
-  gebruikerId: number;
+  id: number;
   datumAccountcreatie: Date;
 }
 
 export class GebruikerListResponseDto {
   items: GebruikerResponseDto[];
+}
+export class GebruikerRelatieResponseDto extends GebruikerResponseDto {
+  relatie: string;
+  isNoodcontact: boolean;
+}
+
+export class GebruikerRelatieListResponseDto {
+  items: GebruikerRelatieResponseDto[];
 }

@@ -1,5 +1,6 @@
 import { int, mysqlTable, tinyint, varchar, mysqlEnum, boolean, date, datetime,  } from 'drizzle-orm/mysql-core';
 import {sql} from 'drizzle-orm'
+import { identifierToKeywordKind } from 'typescript';
 
 const id = () => int('id', { unsigned: true }).primaryKey().autoincrement();
 const fk = (name: string) => int(name, { unsigned: true });
@@ -22,14 +23,14 @@ export const patrouilles = mysqlTable('patrouilles', {
 })
 
 export const lidmaatschappen = mysqlTable('lidmaatschappen', {
-  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'cascade'}),
+  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.id, {onDelete: 'cascade'}),
   werkjaar: int('werkjaar', {unsigned: true}).notNull(),
   takId: fk('tak_id').notNull().references(() => takken.id, { onDelete: 'no action' }),
   betaald: boolean('betaald').notNull().default(false)
 });
 
 export const LeidingWerkjaar = mysqlTable('leiding_werkjaar', {
-  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'cascade'}),
+  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.id, {onDelete: 'cascade'}),
   werkjaar: int('werkjaar', {unsigned: true}).notNull(),
   takId: fk('tak_id').notNull().references(() => takken.id, { onDelete: 'no action' }),
   isTakleiding: boolean("is_takleiding").notNull().default(false),
@@ -37,7 +38,7 @@ export const LeidingWerkjaar = mysqlTable('leiding_werkjaar', {
 });
 
 export const lidPatrouille = mysqlTable('lid_patrouille', {
-  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'cascade'}),
+  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.id, {onDelete: 'cascade'}),
   werkjaar: int('werkjaar', {unsigned: true}).notNull(),
   patrouilleId: fk('patrouilleId').notNull().references(() => patrouilles.id, {onDelete: 'cascade'}),
   isAssistentPatrouilleLeider: boolean("is_assistent_Patrouilleleider").notNull().default(false),
@@ -46,7 +47,7 @@ export const lidPatrouille = mysqlTable('lid_patrouille', {
 
 export const medischeFiches = mysqlTable('medische_fiches', {
   id: id(),
-  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'no action'}),
+  gebruikerId: fk('gebruiker_id').notNull().references(() => gebruikers.id, {onDelete: 'no action'}),
   naamHuisarts: varchar('naam_huisarts', {length:255}).notNull(),
   telefoonnummerHuisarts: varchar('telefoonnummer_huisarts', {length: 255}).notNull(),
   inentingTetanusDatum: date('inenting_tetanus_datum', {mode:'date'}),
@@ -62,7 +63,7 @@ export const medischeFiches = mysqlTable('medische_fiches', {
 });
 
 export const gebruikers = mysqlTable('gebruikers', {
-  gebruikerId: id(),
+  id: id(),
   voornaam: varchar('voornaam', {length: 255}).notNull(),
   achternaam: varchar('achternaam', {length: 255}).notNull(),
   straatnaam: varchar('straatnaam', {length: 511}).notNull(),
@@ -88,8 +89,9 @@ export const medicaties = mysqlTable('medicaties', {
 });
 
 export const lidOuder = mysqlTable('lid_ouder', {
-  lidGebruikerId: fk('lid_gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'no action'}),
-  ouderGebruikerId: fk('ouder_gebruiker_id').notNull().references(() => gebruikers.gebruikerId, {onDelete: 'no action'}),
+  lidGebruikerId: fk('lid_gebruiker_id').notNull().references(() => gebruikers.id, {onDelete: 'no action'}),
+  ouderGebruikerId: fk('ouder_gebruiker_id').notNull().references(() => gebruikers.id, {onDelete: 'no action'}),
   relatie: varchar("relatie", {length: 255}).notNull(),
   isNoodcontact: boolean('is_noodcontact').notNull().default(false)
 });
+
