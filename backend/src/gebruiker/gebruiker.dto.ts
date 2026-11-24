@@ -34,3 +34,19 @@ export class GebruikerRelatieResponseDto extends GebruikerResponseDto {
 export class GebruikerRelatieListResponseDto {
   items: GebruikerRelatieResponseDto[];
 }
+
+export class GebruikerOverzichtResponseDto {
+  id: number;
+  voornaam: string;
+  achternaam: string;
+  gebruikersType: GebruikersType;
+  email: string | null;
+  telefoonnummer: string | null;
+}
+
+export class GebruikerQueryDto {
+  type?: GebruikersType;
+  rol?: 'takleiding' | 'eenheidsleiding';
+  werkjaar?: string;
+  takId?: string;
+}
