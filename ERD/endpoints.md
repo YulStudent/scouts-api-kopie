@@ -133,27 +133,6 @@ Eén fiche per gebruiker (relatie `?--1`), dus singular onder de gebruiker.
 
 ---
 
-## 8. Patrouilles (`Patrouille` + `Lid_Patrouille`)
-
-| Methode | Endpoint | Beschrijving | Toegang |
-|---------|----------|--------------|---------|
-| GET | `/takken/{takId}/patrouilles` | Patrouilles van een tak | LD, TL (eigen tak), EL |
-| GET | `/patrouilles/{id}` | Detail (naam, kreet, tak) | LD, TL (eigen tak), EL, L/O (patrouille van het eigen kind) |
-| POST | `/patrouilles` | Aanmaken `{ patrouilleNaam, takID, kreet }` | TL (eigen tak), EL |
-| PATCH | `/patrouilles/{id}` | Wijzigen | TL (eigen tak), EL |
-| DELETE | `/patrouilles/{id}` | Verwijderen | TL (eigen tak), EL |
-| GET | `/patrouilles/{id}/leden?werkjaar=` | Leden in dit werkjaar | LD, TL (eigen tak), EL |
-
-`Lid_Patrouille` heeft PK `(gebruikerID, werkjaar)`, dus een lid zit per werkjaar in maximaal één patrouille.
-
-| Methode | Endpoint | Beschrijving | Toegang |
-|---------|----------|--------------|---------|
-| GET | `/gebruikers/{id}/patrouilles` | Patrouillehistoriek van een lid | L (zelf), O (kinderen), LD, TL, EL |
-| PUT | `/gebruikers/{id}/patrouilles/{werkjaar}` | Lid in patrouille plaatsen `{ patrouilleID, isPatrouilleleider, isAssistentPatrouilleLeider }` | TL (eigen tak), EL |
-| DELETE | `/gebruikers/{id}/patrouilles/{werkjaar}` | Uit patrouille halen | TL (eigen tak), EL |
-
----
-
 ## 9. Lidmaatschappen (`Lidmaatschap`)
 
 PK `(gebruikerID, werkjaar)`, dus één lidmaatschap per lid per werkjaar.
@@ -165,30 +144,6 @@ PK `(gebruikerID, werkjaar)`, dus één lidmaatschap per lid per werkjaar.
 | PUT | `/gebruikers/{id}/lidmaatschappen/{werkjaar}` | Inschrijven / tak wijzigen `{ takID }` | TL (eigen tak), EL |
 | PATCH | `/gebruikers/{id}/lidmaatschappen/{werkjaar}` | `betaald` aanpassen | **EL** |
 | DELETE | `/gebruikers/{id}/lidmaatschappen/{werkjaar}` | Uitschrijven | EL |
-
----
-
-## 10. Leiding per werkjaar (`Leiding_Werkjaar`)
-
-Hier worden de rechten zelf beheerd (`isTakleiding`, `isEenheidsleiding`), dus enkel EL mag schrijven.
-
-| Methode | Endpoint | Beschrijving | Toegang |
-|---------|----------|--------------|---------|
-| GET | `/leiding-werkjaren?werkjaar=&takId=` | Leidingsploeg per werkjaar | LD, TL, EL |
-| GET | `/gebruikers/{id}/leiding-werkjaren` | Historiek van een leider | LD, TL (eigen tak), EL, de leider zelf |
-| PUT | `/gebruikers/{id}/leiding-werkjaren/{werkjaar}` | Leider aan tak koppelen `{ takID, isTakleiding, isEenheidsleiding }` | **EL** |
-| DELETE | `/gebruikers/{id}/leiding-werkjaren/{werkjaar}` | Koppeling verwijderen | **EL** |
-
----
-
-## 11. Optioneel / handig
-
-| Methode | Endpoint | Beschrijving | Toegang |
-|---------|----------|--------------|---------|
-| GET | `/takken/{takId}/export/ledenlijst?werkjaar=&format=csv` | Ledenlijst exporteren | TL (eigen tak), EL |
-| GET | `/takken/{takId}/export/medisch-overzicht?werkjaar=` | Overzicht allergieën, medicatie en aandachtspunten (kamp) | TL (eigen tak), EL |
-| GET | `/gebruikers/{id}/export` | Alle gegevens van één persoon (GDPR-inzage) | O (zelf/kinderen), EL |
-| POST | `/werkjaren/{werkjaar}/overschrijven` | Lidmaatschappen/leiding naar volgend werkjaar kopiëren | EL |
 
 ---
 

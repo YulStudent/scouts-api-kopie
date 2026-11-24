@@ -11,8 +11,16 @@ emailadres {label: "varchar, nullable"}
 telefoonnummer {label: "varchar, nullable"}
 rijksregisternummer {label: "varchar, nullable"}
 heeftToestemmingFotos {label: "boolean, nullable"}
-startdatumLeiding {label: "date, enkel Leiding"}
+startdatumLeiding {label: "date, nullable, enkel Leiding"}
 datumAccountcreatie {label: "datetime, verplicht"}
+
+[Totem]
+*totemID {label: "int, PK"}
+#gebruikerID {label: "int, FK, unique"}
+totem {label: "varchar, verplicht"}
+voortotem {label: "varchar, nullable"}
+plaats {label: "varchar, verplicht"}
+jaar {label: "int, verplicht"}
 
 [Lid_Ouder]
 *lidGebruikerID
@@ -22,18 +30,18 @@ isNoodcontact
 
 [MedischeFiche]
 *medischeFicheID
-#gebruikerID
-naamHuisArts
+#gebruikerID {label: "int, FK, unique"}
+naamHuisarts
 telefoonnummerHuisarts
 adresHuisarts
-inentingTetanusDatum
+datumInentingTetanus
 bloedgroep
 allergieen
 ziektes
 beperkingen
 dieet
-aandachtpuntenSlapen
-aandachtpuntenAlgemeen
+aandachtspuntenSlapen
+aandachtspuntenAlgemeen
 opmerkingActiviteiten
 datumLaatsteWijziging
 datumToestemmingOuders
@@ -46,19 +54,6 @@ dosering
 tijdstip
 opmerking
 
-[Lid_Patrouille]
-*gebruikerID
-*werkjaar
-#patrouilleID
-isAssistentPatrouilleLeider
-isPatrouilleleider
-
-[Patrouille]
-*patrouilleID
-patrouilleNaam
-#takID
-kreet
-
 [Tak]
 *takID
 takNaam
@@ -67,26 +62,17 @@ maximumLeeftijd
 maximumAantalLedenGeboortejaar
 
 [Lidmaatschap]
-*gebruikerID
-*werkjaar
-#takID
-betaald
-
-[Leiding_Werkjaar]
-*gebruikerID
-*werkjaar
-#takID
-isTakleiding
-isEenheidsleiding
+*gebruikerID {label: "int, PK, FK"}
+*werkjaar {label: "int, PK"}
+#takID {label: "int, FK, nullable"}
+betaald {label: "boolean, verplicht"}
+isTakleiding {label: "boolean, default false, enkel Leiding"}
+isEenheidsleiding {label: "boolean, default false, enkel Leiding"}
 
 Lid_Ouder *--1 Gebruiker {label: "lid"}
 Lid_Ouder *--1 Gebruiker {label: "ouder"}
+Totem ?--1 Gebruiker {label: "toebehorend aan"}
 MedischeFiche ?--1 Gebruiker {label: "hoort bij"}
 Medicatie *--1 MedischeFiche {label: "gebruikt volgens fiche"}
-Lid_Patrouille *--1 Gebruiker {label: "lid"}
-Lid_Patrouille *--1 Patrouille {label: "zit in"}
-Patrouille *--1 Tak {label: "hoort bij"}
 Lidmaatschap *--1 Gebruiker {label: "van"}
 Lidmaatschap *--1 Tak {label: "in tak"}
-Leiding_Werkjaar *--1 Gebruiker {label: "leiding"}
-Leiding_Werkjaar *--1 Tak {label: "begeleidt"}

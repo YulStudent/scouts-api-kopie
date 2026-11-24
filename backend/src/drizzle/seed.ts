@@ -65,21 +65,6 @@ async function seedGebruikers() {
   console.log('Gebruikers seeded successfully\n');
 }
 
-async function seedPatrouilles() {
-  console.log('Seeding patrouilles...');
-  await db.insert(schema.patrouilles).values([
-    { id: 1, patrouilleNaam: 'Wit',     takId: 2, kreet: 'fit' },
-    { id: 2, patrouilleNaam: 'Rood',    takId: 2, kreet: 'groot' },
-    { id: 3, patrouilleNaam: 'Groen',   takId: 2, kreet: 'koen' },
-    { id: 4, patrouilleNaam: 'Blauw',   takId: 2, kreet: 'trouw' },
-    { id: 5, patrouilleNaam: 'Geel',    takId: 2, kreet: 'veel' },
-    { id: 6, patrouilleNaam: 'Dingo',   takId: 3, kreet: 'Snuffelt' },
-    { id: 7, patrouilleNaam: 'Pinguin', takId: 4, kreet: 'waggelt' },
-    { id: 8, patrouilleNaam: 'Muizen',  takId: 5, kreet: 'strontjes' },
-  ]);
-  console.log('Patrouilles seeded successfully\n');
-}
-
 async function seedLidmaatschappen() {
   console.log('Seeding lidmaatschappen...');
   await db.insert(schema.lidmaatschappen).values([
@@ -94,27 +79,6 @@ async function seedLidmaatschappen() {
   console.log('Lidmaatschappen seeded successfully\n');
 }
 
-async function seedLeidingWerkjaar() {
-  console.log('Seeding leiding werkjaar...');
-  await db.insert(schema.LeidingWerkjaar).values([
-    { gebruikerId: 11, werkjaar: 2026, takId: 2, isTakleiding: true,  isEenheidsleiding: false },
-    { gebruikerId: 12, werkjaar: 2026, takId: 4, isTakleiding: true,  isEenheidsleiding: false },
-    { gebruikerId: 13, werkjaar: 2026, takId: 5, isTakleiding: false, isEenheidsleiding: true },
-  ]);
-  console.log('Leiding werkjaar seeded successfully\n');
-}
-
-async function seedLidPatrouille() {
-  console.log('Seeding lid patrouille...');
-  await db.insert(schema.lidPatrouille).values([
-    { gebruikerId: 3, werkjaar: 2026, patrouilleId: 1, isPatrouilleLeider: true,  isAssistentPatrouilleLeider: false },
-    { gebruikerId: 4, werkjaar: 2026, patrouilleId: 1, isPatrouilleLeider: false, isAssistentPatrouilleLeider: true },
-    { gebruikerId: 5, werkjaar: 2026, patrouilleId: 6, isPatrouilleLeider: true,  isAssistentPatrouilleLeider: false },
-    { gebruikerId: 6, werkjaar: 2026, patrouilleId: 7, isPatrouilleLeider: false, isAssistentPatrouilleLeider: false },
-    { gebruikerId: 7, werkjaar: 2026, patrouilleId: 8, isPatrouilleLeider: true,  isAssistentPatrouilleLeider: false },
-  ]);
-  console.log('Lid patrouille seeded successfully\n');
-}
 
 async function seedLidOuder() {
   console.log('Seeding lid ouder...');
@@ -155,10 +119,7 @@ async function main() {
   await resetDatabase();
   await seedTakken();
   await seedGebruikers();
-  await seedPatrouilles();
   await seedLidmaatschappen();
-  await seedLeidingWerkjaar();
-  await seedLidPatrouille();
   await seedLidOuder();
   await seedMedischeFiches();
   await seedMedicaties();
