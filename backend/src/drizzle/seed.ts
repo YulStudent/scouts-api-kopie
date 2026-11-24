@@ -109,6 +109,28 @@ async function seedMedicaties() {
   console.log('Medicaties seeded successfully\n');
 }
 
+async function seedEvents() {
+  console.log('Seeding events...');
+  await db.insert(schema.events).values([
+    {
+      id: 1,
+      title: 'BBQ-festijn',
+      description: 'Inschrijven kan tot zondag 27 september.',
+      eventDate: '2026-10-03',
+      imageUrl: '/images/events/BBQ-festijn oktober 2026.png',
+      externalUrl: 'https://eetfestijn.tortels.be',
+    },
+    {
+      id: 2,
+      title: 'Testevenement',
+      description: 'Dit evenement heeft geen externe link.',
+      eventDate: '2026-12-20',
+      imageUrl: '/images/events/BBQ-festijn oktober 2026.png',
+      externalUrl: null,
+    },
+  ]);
+}
+
 
 async function main() {
   console.log('Starting seeding database...');
@@ -123,6 +145,7 @@ async function main() {
   await seedLidOuder();
   await seedMedischeFiches();
   await seedMedicaties();
+  await seedEvents();
 
   console.log('Database seeding completed succesfully');
 }

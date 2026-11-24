@@ -1,4 +1,4 @@
-import { int, mysqlTable, tinyint, varchar, mysqlEnum, boolean, date, datetime,  } from 'drizzle-orm/mysql-core';
+import { int, mysqlTable, tinyint, varchar, mysqlEnum, boolean, date, datetime, text,  } from 'drizzle-orm/mysql-core';
 import {sql} from 'drizzle-orm'
 import { identifierToKeywordKind } from 'typescript';
 
@@ -95,3 +95,11 @@ export const lidOuder = mysqlTable('lid_ouder', {
   isNoodcontact: boolean('is_noodcontact').notNull().default(false)
 });
 
+export const events = mysqlTable('events', {
+  id: int('id', { unsigned: true }).primaryKey().autoincrement(),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: text('description'),
+  eventDate: date('event_date', { mode: 'string' }).notNull(),
+  imageUrl: varchar('image_url', { length: 255 }).notNull(),
+  externalUrl: varchar('external_url', { length: 500 }),
+});

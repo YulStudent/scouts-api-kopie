@@ -1,4 +1,4 @@
-// src/components/home/HomeEvents.tsx
+import { useEffect, useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import {
   Card,
@@ -7,60 +7,48 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import bbqPoster from '@/assets/events/BBQ-festijn oktober 2026.png';
+import { getEvents, type EventItem } from '@/api/events';
 
-interface EventItem {
-  image: string;
-  imageAlt: string;
-  href: string;
-  title: string;
-  date: string;
-  description: string;
-}
+const formatDate = (isoDate: string) =>
+  new Date(isoDate).toLocaleDateString('nl-BE', {
+    dateStyle: 'full',
+    timeZone: 'UTC',
+  });
 
-const events: EventItem[] = [
-  //mischien in de backend ?
-  {
-    image: bbqPoster,
-    imageAlt: 'BBQ-eetfestijn',
-    href: 'https://eetfestijn.tortels.be',
-    title: 'BBQ-festijn',
-    date: 'Zaterdag 3 oktober 2026',
-    description: 'Inschrijven kan tot zondag 27 september.',
-  },
-  {
-    image: bbqPoster,
-    imageAlt: 'BBQ-eetfestijn',
-    href: 'https://eetfestijn.tortels.be',
-    title: 'BBQ-festijn',
-    date: 'Zaterdag 3 oktober 2026',
-    description: 'Inschrijven kan tot zondag 27 september.',
-  },
-];
-
-function EventCard({ image, imageAlt, href, title, date, description }: EventItem) {
+function EventCard({ title, eventDate, description, imageUrl, externalUrl }: EventItem) {
   return (
     <div className='group block w-full max-w-sm'>
       <Card className='h-full transition-shadow hover:shadow-lg'>
-        <img src={image} alt={imageAlt} className='w-full' />
+        <img src={imageUrl} alt={title} className='w-full' />
         <CardHeader>
-          <CardTitle>
-            {title}
-          </CardTitle>
-          <CardDescription>{date}</CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{formatDate(eventDate)}</CardDescription>
         </CardHeader>
         <CardFooter className='flex justify-between gap-4'>
           <p>{description}</p>
-          <a href={href}>
-            <ExternalLink className='size-4' />
-          </a>
+          {externalUrl && (
+            <a
+              href={externalUrl}
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label={`Meer info over ${title}`}
+            >
+              <ExternalLink className='size-4' />
+            </a>
+          )}
         </CardFooter>
-      </Card> 
+      </Card>
     </div>
   );
 }
 
 export default function HomeEvents() {
+  const [events, setEvents] = useState<EventItem[]>([]);
+
+  useEffect(() => {
+    getEvents().then(setEvents).catch(console.error);
+  }, []);
+
   if (events.length === 0) {
     return null;
   }
@@ -72,7 +60,7 @@ export default function HomeEvents() {
       </h2>
       <div className='flex flex-wrap justify-center gap-6'>
         {events.map((event) => (
-          <EventCard key={event.title} {...event} />
+          <EventCard key={event.id} {...event} />
         ))}
       </div>
     </div>
