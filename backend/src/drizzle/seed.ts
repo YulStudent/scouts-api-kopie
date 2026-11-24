@@ -17,11 +17,9 @@ async function resetDatabase() {
   console.log('Resetting database...');
   await db.delete(schema.medicaties);
   await db.delete(schema.medischeFiches);
+  await db.delete(schema.totems);
   await db.delete(schema.lidOuder);
-  await db.delete(schema.lidPatrouille);
   await db.delete(schema.lidmaatschappen);
-  await db.delete(schema.LeidingWerkjaar);
-  await db.delete(schema.patrouilles);
   await db.delete(schema.gebruikers);
   await db.delete(schema.takken);
   console.log('Database reset completed\n');
@@ -75,6 +73,10 @@ async function seedLidmaatschappen() {
     { gebruikerId: 5, werkjaar: 2026, takId: 3, betaald: false },
     { gebruikerId: 6, werkjaar: 2026, takId: 4, betaald: true },
     { gebruikerId: 7, werkjaar: 2026, takId: 5, betaald: true },
+    { gebruikerId: 3, werkjaar: 2025, takId: 1, betaald: true },
+    { gebruikerId: 11, werkjaar: 2026, takId: 2, betaald: true, isTakleiding: true },
+    { gebruikerId: 12, werkjaar: 2026, takId: 4, betaald: true, isTakleiding: true },
+    { gebruikerId: 13, werkjaar: 2026, takId: 5, betaald: true, isEenheidsleiding: true },
   ]);
   console.log('Lidmaatschappen seeded successfully\n');
 }
@@ -90,6 +92,15 @@ async function seedLidOuder() {
   console.log('Lid ouder seeded successfully\n');
 }
 
+async function seedTotems() {
+  console.log('Seeding totems...');
+  await db.insert(schema.totems).values([
+    { gebruikerId: 11, totem: 'Bever', voortotem: 'Speelse', plaats: 'Kamp Lommel', jaar: 2022 },
+    { gebruikerId: 13, totem: 'Vos', voortotem: 'Slimme', plaats: 'Kamp Bertrix', jaar: 2021 },
+  ]);
+  console.log('Totems seeded successfully\n');
+}
+
 async function seedMedischeFiches() {
   console.log('Seeding medische fiches...');
   await db.insert(schema.medischeFiches).values([
@@ -103,10 +114,10 @@ async function seedMedischeFiches() {
 async function seedMedicaties() {
   console.log('Seeding medicaties...');
   await db.insert(schema.medicaties).values([
-    { id: 1, medischeFicheId: 3, naamMedicatie: 'Ventolin', dossering: '1 puffje bij benauwdheid', opmerking: 'Steeds meenemen op kamp' },
-    { id: 2, medischeFicheId: 2, naamMedicatie: 'Epipen',   dossering: 'Bij ernstige allergische reactie', opmerking: 'Bewaren bij de leiding' },
+    { id: 1, medischeFicheId: 3, naamMedicatie: 'Ventolin', dosering: '1 puffje', tijdstip: 'Bij benauwdheid', opmerking: 'Steeds meenemen op kamp'},
+    { id: 2, medischeFicheId: 2, naamMedicatie: 'Epipen', dosering: '0,3 mg', tijdstip: 'Bij ernstige allergische reactie', opmerking: 'Bewaren bij de leiding' },
   ]);
-  console.log('Medicaties seeded successfully\n');
+    console.log('Medicaties seeded successfully\n');
 }
 
 
@@ -121,6 +132,7 @@ async function main() {
   await seedGebruikers();
   await seedLidmaatschappen();
   await seedLidOuder();
+  await seedTotems();
   await seedMedischeFiches();
   await seedMedicaties();
 

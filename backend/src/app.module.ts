@@ -7,6 +7,7 @@ import { TakService } from './tak/tak.service';
 import { TakModule } from './tak/tak.module';
 import { GebruikerModule } from './gebruiker/gebruiker.module';
 import { MedischeFicheModule } from './medische-fiche/medische-fiche.module';
+import { TotemModule } from './totem/totem.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -16,6 +17,7 @@ import configuration from './config/configuration';
     TakModule,
     GebruikerModule,
     MedischeFicheModule,
+    TotemModule,
   ],
   controllers: [HealthController],
   providers: [],

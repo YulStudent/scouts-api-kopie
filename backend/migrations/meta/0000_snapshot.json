@@ -1,9 +1,520 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "518ff671-e7ad-48c8-aec4-e8097600c069",
+  "id": "c9d863a3-f39b-4d5f-bce3-f349e8730d25",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "gebruikers": {
+      "name": "gebruikers",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "voornaam": {
+          "name": "voornaam",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "achternaam": {
+          "name": "achternaam",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "straatnaam": {
+          "name": "straatnaam",
+          "type": "varchar(511)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "huisnummer": {
+          "name": "huisnummer",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "postcode": {
+          "name": "postcode",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "gemeente": {
+          "name": "gemeente",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "gebruiker_type": {
+          "name": "gebruiker_type",
+          "type": "enum('Lid','Ouder','Leiding')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "emailadres": {
+          "name": "emailadres",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "telefoonnummer": {
+          "name": "telefoonnummer",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rijksregisternummer": {
+          "name": "rijksregisternummer",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "heeft_toestemming_fotos": {
+          "name": "heeft_toestemming_fotos",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "startdatum_leiding": {
+          "name": "startdatum_leiding",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "geboortedatum": {
+          "name": "geboortedatum",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "datum_accountcreatie": {
+          "name": "datum_accountcreatie",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "gebruikers_id": {
+          "name": "gebruikers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "idx_rrn_unique": {
+          "name": "idx_rrn_unique",
+          "columns": [
+            "rijksregisternummer"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "lid_ouder": {
+      "name": "lid_ouder",
+      "columns": {
+        "lid_gebruiker_id": {
+          "name": "lid_gebruiker_id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ouder_gebruiker_id": {
+          "name": "ouder_gebruiker_id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "relatie": {
+          "name": "relatie",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "is_noodcontact": {
+          "name": "is_noodcontact",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "lid_ouder_lid_gebruiker_id_gebruikers_id_fk": {
+          "name": "lid_ouder_lid_gebruiker_id_gebruikers_id_fk",
+          "tableFrom": "lid_ouder",
+          "tableTo": "gebruikers",
+          "columnsFrom": [
+            "lid_gebruiker_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "lid_ouder_ouder_gebruiker_id_gebruikers_id_fk": {
+          "name": "lid_ouder_ouder_gebruiker_id_gebruikers_id_fk",
+          "tableFrom": "lid_ouder",
+          "tableTo": "gebruikers",
+          "columnsFrom": [
+            "ouder_gebruiker_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "lid_ouder_lid_gebruiker_id_ouder_gebruiker_id_pk": {
+          "name": "lid_ouder_lid_gebruiker_id_ouder_gebruiker_id_pk",
+          "columns": [
+            "lid_gebruiker_id",
+            "ouder_gebruiker_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "lidmaatschappen": {
+      "name": "lidmaatschappen",
+      "columns": {
+        "gebruiker_id": {
+          "name": "gebruiker_id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "werkjaar": {
+          "name": "werkjaar",
+          "type": "smallint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tak_id": {
+          "name": "tak_id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "betaald": {
+          "name": "betaald",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "is_takleiding": {
+          "name": "is_takleiding",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "is_eenheidsleiding": {
+          "name": "is_eenheidsleiding",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "lidmaatschappen_gebruiker_id_gebruikers_id_fk": {
+          "name": "lidmaatschappen_gebruiker_id_gebruikers_id_fk",
+          "tableFrom": "lidmaatschappen",
+          "tableTo": "gebruikers",
+          "columnsFrom": [
+            "gebruiker_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "lidmaatschappen_tak_id_takken_id_fk": {
+          "name": "lidmaatschappen_tak_id_takken_id_fk",
+          "tableFrom": "lidmaatschappen",
+          "tableTo": "takken",
+          "columnsFrom": [
+            "tak_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "lidmaatschappen_gebruiker_id_werkjaar_pk": {
+          "name": "lidmaatschappen_gebruiker_id_werkjaar_pk",
+          "columns": [
+            "gebruiker_id",
+            "werkjaar"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "medicaties": {
+      "name": "medicaties",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "medische_fiche_id": {
+          "name": "medische_fiche_id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "naam_medicatie": {
+          "name": "naam_medicatie",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dosering": {
+          "name": "dosering",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tijdstip": {
+          "name": "tijdstip",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "opmerking": {
+          "name": "opmerking",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "medicaties_medische_fiche_id_medische_fiches_id_fk": {
+          "name": "medicaties_medische_fiche_id_medische_fiches_id_fk",
+          "tableFrom": "medicaties",
+          "tableTo": "medische_fiches",
+          "columnsFrom": [
+            "medische_fiche_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "medicaties_id": {
+          "name": "medicaties_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "medische_fiches": {
+      "name": "medische_fiches",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "gebruiker_id": {
+          "name": "gebruiker_id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "naam_huisarts": {
+          "name": "naam_huisarts",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "telefoonnummer_huisarts": {
+          "name": "telefoonnummer_huisarts",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "adres_huisarts": {
+          "name": "adres_huisarts",
+          "type": "varchar(511)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "inenting_tetanus_datum": {
+          "name": "inenting_tetanus_datum",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "bloedgroep": {
+          "name": "bloedgroep",
+          "type": "enum('A+','A-','B+','B-','AB+','AB-','O+','O-')",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "allergieen": {
+          "name": "allergieen",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "actuele_ziektes": {
+          "name": "actuele_ziektes",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "beperkingen": {
+          "name": "beperkingen",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dieet": {
+          "name": "dieet",
+          "type": "enum('Vegetarisch','Vegan','Halal','Koosjer','Geen Restricties')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "aandachtpunten_slapen": {
+          "name": "aandachtpunten_slapen",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "aandachtpunten_algemeen": {
+          "name": "aandachtpunten_algemeen",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "opmerkingen_activiteiten": {
+          "name": "opmerkingen_activiteiten",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "datum_laatste_wijziging": {
+          "name": "datum_laatste_wijziging",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "medische_fiches_gebruiker_id_gebruikers_id_fk": {
+          "name": "medische_fiches_gebruiker_id_gebruikers_id_fk",
+          "tableFrom": "medische_fiches",
+          "tableTo": "gebruikers",
+          "columnsFrom": [
+            "gebruiker_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "medische_fiches_id": {
+          "name": "medische_fiches_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "idx_medische_fiche_gebruiker_unique": {
+          "name": "idx_medische_fiche_gebruiker_unique",
+          "columns": [
+            "gebruiker_id"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
     "takken": {
       "name": "takken",
       "columns": {
@@ -58,6 +569,86 @@
           "name": "idx_tak_naam_unique",
           "columns": [
             "tak_naam"
+          ]
+        }
+      },
+      "checkConstraint": {}
+    },
+    "totems": {
+      "name": "totems",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "gebruiker_id": {
+          "name": "gebruiker_id",
+          "type": "int unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "totem": {
+          "name": "totem",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "voortotem": {
+          "name": "voortotem",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "plaats": {
+          "name": "plaats",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "jaar": {
+          "name": "jaar",
+          "type": "smallint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "totems_gebruiker_id_gebruikers_id_fk": {
+          "name": "totems_gebruiker_id_gebruikers_id_fk",
+          "tableFrom": "totems",
+          "tableTo": "gebruikers",
+          "columnsFrom": [
+            "gebruiker_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "totems_id": {
+          "name": "totems_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "idx_totem_gebruiker_unique": {
+          "name": "idx_totem_gebruiker_unique",
+          "columns": [
+            "gebruiker_id"
           ]
         }
       },
