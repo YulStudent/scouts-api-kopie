@@ -4,15 +4,15 @@ export type Dieet = 'Vegetarisch' | 'Vegan' | 'Halal' | 'Koosjer' | 'Geen Restri
 export class CreateMedischeFicheRequestDto {
   naamHuisarts: string;
   telefoonnummerHuisarts: string;
-  inentingTetanusDatum?: string;
-  bloedgroep?: Bloedgroep;
-  allergieen?: string;
-  actueleZiektes?: string;
-  beperkingen?: string;
+  inentingTetanusDatum?: Date|null;
+  bloedgroep?: Bloedgroep|null;
+  allergieen?: string|null;
+  actueleZiektes?: string|null;
+  beperkingen?: string|null;
   dieet: Dieet;
-  aandachtpuntenSlapen?: string;
-  aandachtpuntenAlgemeen?: string;
-  opmerkingenActiviteiten?: string;
+  aandachtpuntenSlapen?: string|null;
+  aandachtpuntenAlgemeen?: string|null;
+  opmerkingenActiviteiten?: string|null;
 }
 
 export class UpdateMedischeFicheRequestDto extends CreateMedischeFicheRequestDto {}
@@ -25,7 +25,7 @@ export class MedischeFicheResponseDto extends CreateMedischeFicheRequestDto{
 export class CreateMedicatieRequestDto {
   naamMedicatie: string;
   dossering: string;
-  opmerking?: string;
+  opmerking?: string|null;
 }
 
 export class UpdateMedicatieRequestDto extends CreateMedicatieRequestDto {}

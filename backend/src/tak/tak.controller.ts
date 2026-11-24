@@ -17,7 +17,7 @@ import {
   TakResponseDto,
 } from './tak.dto';
 
-@Controller('tak')
+@Controller('takken')
 export class TakController {
   constructor(private readonly takService: TakService) {}
 
