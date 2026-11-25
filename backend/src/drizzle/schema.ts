@@ -73,7 +73,7 @@ export const medischeFiches = mysqlTable('medische_fiches', {
   inentingTetanusDatum: date('inenting_tetanus_datum', { mode: 'date' }),
   bloedgroep: mysqlEnum('bloedgroep', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
   allergieen: varchar('allergieen', { length: 255 }),
-  actueleZiektes: varchar('actuele_ziektes', { length: 255 }), // 👈 kolom in kleine letters
+  actueleZiektes: varchar('actuele_ziektes', { length: 255 }),
   beperkingen: varchar('beperkingen', { length: 255 }),
   dieet: mysqlEnum('dieet', ['Vegetarisch', 'Vegan', 'Halal', 'Koosjer', 'Geen Restricties']).notNull(),
   aandachtpuntenSlapen: varchar('aandachtpunten_slapen', { length: 255 }),
