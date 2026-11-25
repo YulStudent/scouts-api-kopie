@@ -1,64 +1,61 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
+import { and, asc, eq } from 'drizzle-orm';
 import { gebruikers, medicaties, medischeFiches } from '../drizzle/schema';
 import { type DatabaseProvider, InjectDrizzle } from '../drizzle/drizzle.provider';
 import {
   CreateMedicatieRequestDto,
   CreateMedischeFicheRequestDto,
-  MedicatieListResponseDto,
   MedicatieResponseDto,
   MedischeFicheResponseDto,
-  UpdateMedicatieRequestDto,
   UpdateMedischeFicheRequestDto,
 } from './medische-fiche.dto';
-
+ 
 @Injectable()
 export class MedischeFicheService {
   constructor(@InjectDrizzle() private readonly db: DatabaseProvider) {}
 
-  async getFicheById(id: number): Promise<MedischeFicheResponseDto> {
-    const fiche = await this.db.query.medischeFiches.findFirst({where: eq(medischeFiches.id, id),});
-    if (!fiche) 
-      throw new NotFoundException('Medische fiche niet gevonden');
+  async getByGebruikerId(gebruikerId: number): Promise<MedischeFicheResponseDto> {
+    const fiche = await this.db.query.medischeFiches.findFirst({where: eq(medischeFiches.gebruikerId, gebruikerId),with: { medicaties: {columns: { medischeFicheId: false },orderBy: asc(medicaties.naamMedicatie),},},});
+    if (!fiche)
+      throw new NotFoundException('Deze gebruiker heeft geen medische fiche');
     return fiche;
   }
-
-  async getFicheByGebruikerId(gebruikerId: number): Promise<MedischeFicheResponseDto> {
-    const fiche = await this.db.query.medischeFiches.findFirst({where: eq(medischeFiches.gebruikerId, gebruikerId),});
-    if (!fiche) throw new NotFoundException('Deze gebruiker heeft geen medische fiche');
-    return fiche;
-  }
-
-  async createFiche(gebruikerId: number, dto: CreateMedischeFicheRequestDto): Promise<MedischeFicheResponseDto> {
-    const [nieuwe] = await this.db.insert(medischeFiches).values({ ...dto, gebruikerId }).$returningId();
-    return this.getFicheById(nieuwe.id);
-  }
-
-  async updateFicheById(id: number, dto: UpdateMedischeFicheRequestDto): Promise<MedischeFicheResponseDto> {
-    await this.db.update(medischeFiches).set({ ...dto, datumLaatsteWijziging: new Date() }).where(eq(medischeFiches.id, id));
-    return this.getFicheById(id);
-  }
-
-  async deleteFicheById(id: number): Promise<void> {
-    const [result] = await this.db.delete(medischeFiches).where(eq(medischeFiches.id, id));
-    if (result.affectedRows === 0)
-      throw new NotFoundException('Medische fiche niet gevonden');
-  }
-
-  async getMedicatiesPerFiche(ficheId: number): Promise<MedicatieListResponseDto> {
-    await this.getFicheById(ficheId);
-    const items = await this.db.query.medicaties.findMany({
-      where: eq(medicaties.medischeFicheId, ficheId),
+ 
+  async createByGebruikerId(gebruikerId: number, dto: CreateMedischeFicheRequestDto): Promise<MedischeFicheResponseDto> {
+    const { medicaties: nieuweMedicaties = [], ...ficheGegevens } = dto;
+    const gebruiker = await this.db.query.gebruikers.findFirst({where: eq(gebruikers.id, gebruikerId),});
+    if (!gebruiker)
+      throw new NotFoundException('Geen gebruiker met dit id bestaat');
+    const bestaande = await this.db.query.medischeFiches.findFirst({columns: { id: true },where: eq(medischeFiches.gebruikerId, gebruikerId), });
+    if (bestaande)
+      throw new ConflictException('Deze gebruiker heeft al een medische fiche');
+    await this.db.transaction(async (tx) => {
+      const [nieuweFiche] = await tx.insert(medischeFiches).values({ ...ficheGegevens, gebruikerId }).$returningId();
+      if (nieuweMedicaties.length > 0)
+        await tx.insert(medicaties).values(nieuweMedicaties.map((m) => ({ ...m, medischeFicheId: nieuweFiche.id })));
     });
-    return { items };
+    await this.db.insert(medischeFiches).values({ ...dto, gebruikerId });
+    return this.getByGebruikerId(gebruikerId);
   }
-
-  async getMedicatieById(id: number): Promise<MedicatieResponseDto> {
-    const medicatie = await this.db.query.medicaties.findFirst({
-      where: eq(medicaties.id, id),
+ 
+  async updateByGebruikerId( gebruikerId: number,{ medicaties: nieuweMedicaties, ...ficheGegevens }: UpdateMedischeFicheRequestDto,): Promise<MedischeFicheResponseDto> {
+    const fiche = await this.getByGebruikerId(gebruikerId);
+    await this.db.transaction(async (tx) => {
+      await tx.update(medischeFiches).set({ ...ficheGegevens, datumLaatsteWijziging: new Date() }).where(eq(medischeFiches.id, fiche.id));
+      if (nieuweMedicaties) {
+        await tx.delete(medicaties).where(eq(medicaties.medischeFicheId, fiche.id));
+        if (nieuweMedicaties.length > 0) {
+          await tx.insert(medicaties).values(nieuweMedicaties.map((m) => ({ ...m, medischeFicheId: fiche.id })));
+        }
+      }
     });
-    if (!medicatie) throw new NotFoundException('Medicatie niet gevonden');
-    return medicatie;
+ 
+    return this.getByGebruikerId(gebruikerId);
   }
-
+ 
+  async deleteByGebruikerId(gebruikerId: number): Promise<void> {
+    const [result] = await this.db.delete(medischeFiches).where(eq(medischeFiches.gebruikerId, gebruikerId));
+    if (result.affectedRows === 0) 
+      throw new NotFoundException('Deze gebruiker heeft geen medische fiche');
+  }
 }

@@ -32,9 +32,6 @@ export class GebruikerService {
     else if (rol === 'eenheidsleiding')
       items = await this.db.query.gebruikers.findMany({where: this.heeftLidmaatschap([eq(lidmaatschappen.werkjaar, werkjaar), eq(lidmaatschappen.isEenheidsleiding, true)]),});
     
-    if (items.length === 0) {
-      throw new NotFoundException(`Geen ${rol} gevonden voor werkjaar ${werkjaar}`);
-    }
     return { items };
   }
 

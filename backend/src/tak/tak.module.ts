@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
+import { DrizzleModule } from '../drizzle/drizzle.module';
+import { GebruikerModule } from '../gebruiker/gebruiker.module';
 import { TakController } from './tak.controller';
 import { TakService } from './tak.service';
-import { DrizzleModule } from '../drizzle/drizzle.module';
 
 @Module({
-  imports: [DrizzleModule],
+  imports: [DrizzleModule, GebruikerModule],
   controllers: [TakController],
   providers: [TakService],
 })

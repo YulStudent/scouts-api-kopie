@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { TotemService } from './totem.service';
+import { TotemListResponseDto } from './totem.dto';
 
-@Controller('totem')
-export class TotemController {}
+@Controller('totems')
+export class TotemController {
+  constructor(private readonly totemService: TotemService) {}
+
+  @Get()
+  getAllTotems(): Promise<TotemListResponseDto> {
+    return this.totemService.getAll();
+  }
+}
